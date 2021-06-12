@@ -85,10 +85,10 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <select class="form-control" id="doctor"> 
-                                            <option value="0" disabled selected> Pilih Dokter</option>
-                                            <option value="3"> drg. Kelvin William</option>
-                                            <option value="4"> drg. Nina Liliana</option>
-                                            <option value="6"> drg. Christian Henri</option>
+                                            <option value="" disabled selected> Pilih Dokter</option>
+                                            @foreach($doctors as $doctor)
+                                                <option value="{{ $doctor->id }}"> {{ $doctor->name}}</option>                                          
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -106,12 +106,21 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <select class="form-control" id="time_schedule">
-                                            <option value="00:00" disabled selected> Pilih Jam</option>
+                                            <option value="" disabled selected> Pilih Jam</option>
                                             <option value="17:00"> 17:00</option>
                                             <option value="18:00"> 18:00</option>
                                             <option value="19:00"> 19:00</option>
                                             <option value="20:00"> 20:00</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-3 mb-3 mb-sm-0">
+                                        <p class="text-gray-900" style="margin-top: 6px;">Pesan</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <!-- <input type="text" class="form-control " id="name" name="name"> -->
+                                        <textarea name="notes" id="notes" class="form-control" value=""></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -164,6 +173,7 @@
                 let doctor = document.getElementById("doctor").value;
                 let date_schedule = document.getElementById("date_schedule").value; 
                 let time_schedule = document.getElementById("time_schedule").value; 
+                let notes = document.getElementById("notes").value; 
                 let _token   = $('meta[name="csrf-token"]').attr('content');
 
                 $.ajax({
@@ -176,6 +186,7 @@
                         doctor_id:doctor,
                         date_schedule:date_schedule,
                         time_schedule:time_schedule,
+                        notes:notes,
                         _token: _token
                     },
                     success: function(data){

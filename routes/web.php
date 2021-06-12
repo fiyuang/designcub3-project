@@ -13,13 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('booking');
-});
 
-Route::get('/admin', function () {
-    return view('dashboard');
-});
+Route::get('/','ScheduleController@index')->name('index');
+Route::get('/admin','DashboardController@index')->name('dashboard');
+Route::get('/patient/{id}/json','DashboardController@detailPatientJson')->name('detail.patient');
 
 Auth::routes();
 

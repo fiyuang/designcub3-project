@@ -39,4 +39,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Schedule');
     }
+
+    public function scopeDoctorOnly($query)
+    {
+        $query->where('user_type', 2);
+    }
+
+    public function scopePatientOnly($query)
+    {
+        $query->where('user_type', 3);
+    }
 }

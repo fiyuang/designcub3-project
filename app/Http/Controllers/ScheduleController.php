@@ -11,7 +11,8 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        //
+        $doctors = User::doctorOnly()->orderBy('id', 'DESC')->get();
+        return view('booking', get_defined_vars());
     }
 
     public function store(Request $request)
@@ -27,7 +28,7 @@ class ScheduleController extends Controller
                     'message' => "Anda sudah membuat jadwal periksa dengan Dokter & Jam ini, silahkan pilih ulang jadwal Anda",
                 ]);
             } else {       
-                return $this->createAppointment($user->id, $request->doctor_id, $request->date_schedule, $request->time_schedule);
+                return $this->createAppointment($user->id, $request->doctor_id, $request->date_schedule, $request->time_schedule, $request->notes);
             }
 
         } else { //pasien yang belum terdaftar
@@ -43,7 +44,7 @@ class ScheduleController extends Controller
                 ]);
                 \DB::commit();
 
-                return $this->createAppointment($register_user->id, $request->doctor_id, $request->date_schedule, $request->time_schedule);
+                return $this->createAppointment($register_user->id, $request->doctor_id, $request->date_schedule, $request->time_schedule, $request->notes);
 
             } catch (\Exception $e){
                 \DB::rollback();
@@ -56,7 +57,7 @@ class ScheduleController extends Controller
         }
     }
 
-    public function createAppointment($user_id, $doctor_id, $date_schedule, $time_schedule)
+    public function createAppointment($user_id, $doctor_id, $date_schedule, $time_schedule, $notes)
     {
         \DB::beginTransaction();
         try {
@@ -64,7 +65,8 @@ class ScheduleController extends Controller
                 'patient_id' => $user_id,
                 'doctor_id' => $doctor_id,
                 'date' => $date_schedule,
-                'time' => $time_schedule
+                'time' => $time_schedule,
+                'notes' => $notes
             ]);
             \DB::commit();
 
