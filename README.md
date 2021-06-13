@@ -1,5 +1,26 @@
 # designcub3-project
 Technical Test Project
+## Getting Start
+Before you running the program, make sure you've run this command:
+- `composer install` and `composer update`
+- `npm install` and `npm update`
+- `npm run dev`
+
+### Config setup:
+rename `.env.example` to `.env`
+
+### Database setup:
+import `designcub3_clinic.sql` into your local database
+
+### Run the program
+`php -S localhost:3333 -t public`
+
+The program will run on http://localhost:3333
+
+### Credential Account (Adminpanel/Dashboard)
+- username: admin
+- password: asdfghjkl
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
