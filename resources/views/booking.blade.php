@@ -204,10 +204,10 @@
                                 icon: 'error',
                                 title: data.message,
                                 showConfirmButton: true,
-                            },
-                            function(){ 
-                                window.location.reload();
+                            }).then(() => {
+                                location.reload(true);
                             })
+                            
                         }
                     },
                     error: function (data) {

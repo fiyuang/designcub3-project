@@ -103,6 +103,9 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="{{ asset('vendor/jquery-mask/jquery.mask.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/jquery-mask/jquery.mask.min.js') }}"></script>
+
 <script type="text/javascript">
 
     function removeAction() {
@@ -113,6 +116,7 @@
 
     $(document).ready(function () {
         removeAction();
+        $("#form-doctor [name=mobile_number]").mask('0000000000000', {reverse: true});
     })
 
 </script>
