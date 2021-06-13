@@ -17,7 +17,7 @@ class DashboardController extends Controller
     {
         $schedules = Schedule::orderBy('id', 'DESC')->get();
         // dd($schedules);
-        return view('dashboard', [
+        return view('dashboard.dashboard', [
             'schedules' => $schedules
         ]);
     }

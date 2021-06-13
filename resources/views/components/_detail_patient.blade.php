@@ -30,6 +30,10 @@
                         <th width="200">Tanggal & Waktu Periksa </th>
                         <td class="datetime_appointment"></td>
                     </tr>
+                    <tr>
+                        <th width="200">Pesan / Keluhan</th>
+                        <td class="notes"></td>
+                    </tr>
                 </table>
             </div>
             <div class="modal-footer">

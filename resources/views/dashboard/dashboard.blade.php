@@ -69,6 +69,7 @@
                 $('.dob').html(data.patient.date_of_birth);
                 $('.doctor').html(data.doctor.name);
                 $('.datetime_appointment').html(datetime_appointment);
+                $('.notes').html(data.notes);
 
                 $('#detail-patient').modal('show');
             });

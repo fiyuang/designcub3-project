@@ -25,5 +25,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/admin','DashboardController@index')->name('dashboard');
     Route::get('/patient/{id}/json','DashboardController@detailPatientJson')->name('detail.patient');
     Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+
+    Route::prefix('members')->group(function() {
+        Route::get('/doctors','MemberController@doctors')->name('dashboard.doctor');
+        Route::post('/store/doctor','MemberController@create_doctor')->name('doctors.store');
+        Route::post('/delete/doctor/{id}','MemberController@delete_doctor')->name('doctors.destroy');
+
+        Route::get('/patients','MemberController@patients')->name('dashboard.patient');
+    });
  
 });
