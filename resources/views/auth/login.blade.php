@@ -48,19 +48,42 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form method="POST" action="{{ route('login') }}" id="loginForm">
+                                        @csrf
+                                        @if(session('errors'))
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                Something it's wrong:
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                                <ul>
+                                                @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                                @endforeach
+                                                </ul>
+                                            </div>
+                                         @endif
+                                        @if (Session::has('success'))
+                                            <div class="alert alert-success">
+                                                {{ Session::get('success') }}
+                                            </div>
+                                        @endif
+                                        @if (Session::has('error'))
+                                            <div class="alert alert-danger">
+                                                {{ Session::get('error') }}
+                                            </div>
+                                        @endif
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            <input id="name" type="name" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Enter username..." required autocomplete="name" autofocus>
                                         </div>
+
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Enter password..." required autocomplete="current-password">
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
-                                        </a>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

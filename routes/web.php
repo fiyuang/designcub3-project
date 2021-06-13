@@ -15,10 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/','ScheduleController@index')->name('index');
-Route::get('/admin','DashboardController@index')->name('dashboard');
-Route::get('/patient/{id}/json','DashboardController@detailPatientJson')->name('detail.patient');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/create-appointment', 'ScheduleController@store')->name('schedule.store');
+
+Route::get('login', 'Auth\LoginController@showFormLogin')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+
+Route::group(['middleware' => 'auth'], function () {
+ 
+    Route::get('/admin','DashboardController@index')->name('dashboard');
+    Route::get('/patient/{id}/json','DashboardController@detailPatientJson')->name('detail.patient');
+    Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+ 
+});

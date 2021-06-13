@@ -144,6 +144,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>No.</th>
                                             <th>Nama Pasien</th>
                                             <th>Dokter</th>
                                             <th>Tanggal Periksa</th>
@@ -155,6 +156,7 @@
                                         @php $i = 1 @endphp
                                         @foreach ($schedules as $schedule)
                                         <tr>
+                                            <td>{{ $i++ }}</td>
                                             <td>{{ $schedule->patient->name }}</td>
                                             <td>{{ $schedule->doctor->name }}</td>
                                             <td>{{ $schedule->date }}</td>
@@ -209,7 +211,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="{{ route('logout') }}">Logout</a>
                 </div>
             </div>
         </div>
