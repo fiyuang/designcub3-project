@@ -17,44 +17,46 @@ class ScheduleController extends Controller
 
     public function store(Request $request)
     {
-        $user = User::where('mobile_number', $request->mobile_number)->first();
-
-        if (isset($user)){ //pasien yang sudah terdaftar
-
-            $schedule = Schedule::where('patient_id', $user->id)->where('doctor_id', $request->doctor_id)->where('date', $request->date_schedule)->first();
-            if($schedule){
+            $schedule = Schedule::where('doctor_id', $request->doctor_id)->where('date', $request->date_schedule)->where('time', $request->time_schedule)->first();
+            if(isset($schedule)){
                 return response()->json([
                     'success' => false,
-                    'message' => "Anda sudah membuat jadwal periksa dengan Dokter & Jam ini, silahkan pilih ulang jadwal Anda",
+                    'message' => "Jadwal periksa dengan Dokter pada Waktu & Jam tersebut telah terisi, silahkan pilih ulang jadwal Anda",
                 ]);
-            } else {       
-                return $this->createAppointment($user->id, $request->doctor_id, $request->date_schedule, $request->time_schedule, $request->notes);
+            } else {
+                $user = User::where('mobile_number', $request->mobile_number)->first();
+                if (isset($user)){ //pasien yang sudah terdaftar
+
+                    return $this->createAppointment($user->id, $request->doctor_id, $request->date_schedule, $request->time_schedule, $request->notes);
+
+                } else {
+
+                    \DB::beginTransaction();
+                    try {
+
+                        $register_user = User::create([
+                            'name' => $request->name,
+                            'user_type' => 3,
+                            'date_of_birth' => $request->dob,
+                            'mobile_number' => $request->mobile_number,
+                            'password' => Hash::make(12345678),
+                        ]);
+                        \DB::commit();
+
+                        return $this->createAppointment($register_user->id, $request->doctor_id, $request->date_schedule, $request->time_schedule, $request->notes);
+
+                    } catch (\Exception $e){
+                        \DB::rollback();
+                        return response()->json([
+                            'success' => false,
+                            'data'    => null,
+                            'error' => $e->getMessage()
+                        ]);
+                    }
+
+                }
             }
-
-        } else { //pasien yang belum terdaftar
-            \DB::beginTransaction();
-            try {
-
-                $register_user = User::create([
-                    'name' => $request->name,
-                    'user_type' => 3,
-                    'date_of_birth' => $request->dob,
-                    'mobile_number' => $request->mobile_number,
-                    'password' => Hash::make(12345678),
-                ]);
-                \DB::commit();
-
-                return $this->createAppointment($register_user->id, $request->doctor_id, $request->date_schedule, $request->time_schedule, $request->notes);
-
-            } catch (\Exception $e){
-                \DB::rollback();
-                return response()->json([
-                    'success' => false,
-                    'data'    => null,
-                    'error' => $e->getMessage()
-                ]);
-            }
-        }
+        
     }
 
     public function createAppointment($user_id, $doctor_id, $date_schedule, $time_schedule, $notes)
